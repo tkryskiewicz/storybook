@@ -5632,6 +5632,7 @@ exports[`Storyshots UI|Preview/Iframe errorStory 1`] = `
 <iframe
   allowfullscreen=""
   id="iframe"
+  scrolling="yes"
   src="/iframe.html?id=core-errors--story-throws-exception"
   style="width:100%;height:500px"
   title="Missing"
@@ -5642,6 +5643,7 @@ exports[`Storyshots UI|Preview/Iframe missingStory 1`] = `
 <iframe
   allowfullscreen=""
   id="iframe"
+  scrolling="yes"
   src="/iframe.html?id=missing"
   style="width:100%;height:500px"
   title="Missing"
@@ -5652,6 +5654,7 @@ exports[`Storyshots UI|Preview/Iframe workingStory 1`] = `
 <iframe
   allowfullscreen=""
   id="iframe"
+  scrolling="yes"
   src="/iframe.html?id=ui-panel--default"
   style="width:100%;height:500px"
   title="Missing"
@@ -8388,6 +8391,7 @@ exports[`Storyshots UI|Sidebar/Sidebar loading 1`] = `
                 <a
                   class="emotion-1"
                   href="./"
+                  target=""
                 >
                   <svg
                     class="emotion-0"
@@ -9813,6 +9817,7 @@ exports[`Storyshots UI|Sidebar/Sidebar simple 1`] = `
                 <a
                   class="emotion-1"
                   href="./"
+                  target=""
                 >
                   <svg
                     class="emotion-0"
@@ -10393,6 +10398,7 @@ exports[`Storyshots UI|Sidebar/SidebarHeading customBrandImage 1`] = `
       <a
         class="emotion-1"
         href="https://example.com"
+        target="_blank"
       >
         <img
           alt="My Title"
@@ -10693,6 +10699,7 @@ exports[`Storyshots UI|Sidebar/SidebarHeading linkAndText 1`] = `
       <a
         class="emotion-0"
         href="https://example.com"
+        target="_blank"
       >
         My title
       </a>
@@ -11300,6 +11307,7 @@ exports[`Storyshots UI|Sidebar/SidebarHeading menuHighlighted 1`] = `
       <a
         class="emotion-1"
         href="./"
+        target=""
       >
         <svg
           class="emotion-0"
@@ -11930,6 +11938,7 @@ exports[`Storyshots UI|Sidebar/SidebarHeading standard 1`] = `
       <a
         class="emotion-1"
         href="./"
+        target=""
       >
         <svg
           class="emotion-0"
