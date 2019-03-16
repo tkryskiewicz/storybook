@@ -203,7 +203,7 @@ export default class StoryPanel extends Component {
   };
 
   renderBootstrapCode = ({ mainFileLocation, story, kind }) =>
-    `/*${mainFileLocation ? `import "..${mainFileLocation}"` : ''};*/
+    `${mainFileLocation ? `import "..${mainFileLocation}"` : ''};
 import addons from "@storybook/addons";
 import Events from "@storybook/core-events";
 import { toId } from "@storybook/router/utils";
