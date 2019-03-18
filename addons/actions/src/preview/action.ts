@@ -1,9 +1,13 @@
 import uuid from 'uuid/v1';
 import { addons } from '@storybook/addons';
-import { EVENT_ID } from '../constants';
+import { EVENT_ID, HANDLER_REGISTERED_ID } from '../constants';
 import { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 
 export function action(name: string, options: ActionOptions = {}): HandlerFunction {
+  const handlerChannel = addons.getChannel();
+
+  handlerChannel.emit(HANDLER_REGISTERED_ID, name);
+
   const actionOptions = {
     ...options,
   };

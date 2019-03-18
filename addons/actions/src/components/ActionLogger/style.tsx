@@ -1,6 +1,12 @@
 import { styled } from '@storybook/theming';
 import { opacify } from 'polished';
 
+export const Handlers = styled.div({
+  position: 'absolute',
+  right: '0',
+  width: '20%',
+});
+
 export const Action = styled.div({
   display: 'flex',
   padding: '0',

@@ -4,8 +4,8 @@ import { styled, withTheme } from '@storybook/theming';
 import Inspector from 'react-inspector';
 import { ActionBar, ScrollArea } from '@storybook/components';
 
-import { Action, InspectorContainer, Counter } from './style';
-import { ActionDisplay } from '../../models';
+import { Action, InspectorContainer, Counter, Handlers } from './style';
+import { ActionDisplay, ActionHandler } from '../../models';
 
 export const Wrapper = styled(({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
@@ -21,11 +21,12 @@ const ThemedInspector = withTheme(({ theme, ...props }) => (
 ));
 
 interface ActionLoggerProps {
+  handlers: ActionHandler[];
   actions: ActionDisplay[];
   onClear: () => void;
 }
 
-export const ActionLogger = ({ actions, onClear }: ActionLoggerProps) => (
+export const ActionLogger = ({ handlers, actions, onClear }: ActionLoggerProps) => (
   <Fragment>
     <Wrapper title="actionslogger">
       {actions.map((action: ActionDisplay) => (
@@ -42,6 +43,19 @@ export const ActionLogger = ({ actions, onClear }: ActionLoggerProps) => (
         </Action>
       ))}
     </Wrapper>
+
+    <Handlers>
+      <h3>Handlers:</h3>
+      {handlers.length ? (
+        handlers.map((h, i) => (
+          <div key={i}>
+            - {h.dynamic && '*'} {h.name}
+          </div>
+        ))
+      ) : (
+        <div>No registered handlers.</div>
+      )}
+    </Handlers>
 
     <ActionBar actionItems={[{ title: 'Clear', onClick: onClear }]} />
   </Fragment>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import deepEqual from 'fast-deep-equal';
 
-import { STORY_RENDERED } from '@storybook/core-events';
+import { STORY_RENDERED, STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
-import { EVENT_ID } from '../..';
-import { ActionDisplay } from '../../models';
+import { EVENT_ID, HANDLER_REGISTERED_ID } from '../..';
+import { ActionDisplay, ActionHandler } from '../../models';
 
 interface ActionLoggerProps {
   active: boolean;
@@ -16,6 +16,8 @@ interface ActionLoggerProps {
 }
 
 interface ActionLoggerState {
+  rendered: boolean;
+  handlers: ActionHandler[];
   actions: ActionDisplay[];
 }
 
@@ -25,23 +27,31 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
   constructor(props: ActionLoggerProps) {
     super(props);
 
-    this.state = { actions: [] };
+    this.state = {
+      rendered: false,
+      handlers: [],
+      actions: [],
+    };
   }
 
   componentDidMount() {
     this.mounted = true;
     const { api } = this.props;
 
+    api.on(HANDLER_REGISTERED_ID, this.registerHandler);
     api.on(EVENT_ID, this.addAction);
     api.on(STORY_RENDERED, this.handleStoryChange);
+    api.on(STORY_CHANGED, this.clearHandlers);
   }
 
   componentWillUnmount() {
     this.mounted = false;
     const { api } = this.props;
 
+    api.off(HANDLER_REGISTERED_ID, this.registerHandler);
     api.off(STORY_RENDERED, this.handleStoryChange);
     api.off(EVENT_ID, this.addAction);
+    api.off(STORY_CHANGED, this.clearHandlers);
   }
 
   handleStoryChange = () => {
@@ -49,6 +59,34 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
     if (actions.length > 0 && actions[0].options.clearOnStoryChange) {
       this.clearActions();
     }
+
+    this.setState({
+      rendered: true,
+    });
+  };
+
+  registerHandler = (name: string) => {
+    const { rendered, handlers } = this.state;
+
+    if (handlers.some(h => h.name === name && h.dynamic)) {
+      return;
+    }
+
+    const handler: ActionHandler = {
+      name,
+      dynamic: rendered,
+    };
+
+    this.setState({
+      handlers: [...handlers, handler],
+    });
+  };
+
+  clearHandlers = () => {
+    this.setState({
+      rendered: false,
+      handlers: [],
+    });
   };
 
   addAction = (action: ActionDisplay) => {
@@ -71,9 +109,10 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
   };
 
   render() {
-    const { actions = [] } = this.state;
+    const { handlers, actions = [] } = this.state;
     const { active } = this.props;
     const props = {
+      handlers,
       actions,
       onClear: this.clearActions,
     };
